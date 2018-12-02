@@ -15,14 +15,7 @@ object Part1 {
   }
 
   def run(input: Array[String]): Int = {
-    var twos = 0
-    var threes = 0
-
-    input.map(count).map(m => m.values).foreach(count => {
-      if (count.exists(p => p == 2)) twos = twos + 1
-      if (count.exists(p => p == 3)) threes = threes + 1
-    })
-
-    twos * threes
+    val map = input.map(count).map(m => m.values)
+    map.count(s => s.exists(c => c == 2)) * map.count(s => s.exists(c => c == 3))
   }
 }
