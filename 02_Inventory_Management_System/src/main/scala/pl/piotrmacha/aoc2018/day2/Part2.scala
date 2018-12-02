@@ -12,6 +12,8 @@ object Part2 {
     if (a.isEmpty && b.isEmpty) carry
     else intersection(a.tail, b.tail, if (a.head == b.head) carry :+ a.head else carry)
   }
+  
+  def intersection(a: String, b: String): Array[Char] = intersection(a.toCharArray, b.toCharArray)
 
   def run(input: Array[String]): String = {
     val ids = input
@@ -29,7 +31,7 @@ object Part2 {
       })
       .map(t => {
         val (id, _) = t
-        id.toCharArray
+        id
       })
 
     if (ids.length != 2) {
