@@ -22,7 +22,7 @@ Maps the input to character count map and then counts how many lines meet the re
 Counts the differences between inputs and then selects valid two to compute the intersection
 
 ### Day 3
-Day 3 solutions uses Region.overlaps(regions: Array<Region>): Array<Region> to create a list of overlaps between regions
+Day 3 solutions uses `Region.overlaps(regions: Array<Region>): Array<Region>` to create a list of overlaps between regions
 
 #### Part 1
 Creates a list of overlaps then gets individual points then distincts the list and counts its elements
