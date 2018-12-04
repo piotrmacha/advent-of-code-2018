@@ -29,3 +29,14 @@ Creates a list of overlaps then gets individual points then distincts the list a
 
 #### Part 2
 Searches for a claim that doesn't have any overlaps
+
+#### Day 4
+In this task a Guard class is created from the event stream. The class provides mehtod
+for calculating Array of Sleep Periods and Sleep Periods provide a method for calculating
+Array of minutes
+
+#### Part 1
+We search for a Guard who slept the most
+
+#### Part 2
+We compute the most common sleep minutes with occurrences for all guards and then get the maximum
