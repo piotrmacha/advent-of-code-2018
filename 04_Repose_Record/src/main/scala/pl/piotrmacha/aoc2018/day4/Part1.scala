@@ -4,25 +4,19 @@ object Part1 {
   def run(events: Array[Event]): Int = {
     val guards = Guards.fromEvents(events)
 
-    val guard = guards
+    val maxPeriod = guards
       .flatMap(guard => guard.sleepPeriods())
       .maxBy(_.minutes())
-      .guard
 
-    val sleepMinutes = guard.sleepPeriods()
+    val mostCommonSleepMinute = maxPeriod.guard.sleepPeriods()
       .flatMap(period => Range(period.from.getMinute, period.to.getMinute))
+      .foldLeft(Map[Int, Int]())((c, m) => {
+        c + {
+          m -> (c.getOrElse(m, 0) + 1)
+        }
+      })
+      .maxBy(_._2)._1
 
-    val mostCommonSleepMinute = findMostCommonSleepMinute(sleepMinutes)
-
-    guard.id * mostCommonSleepMinute
-  }
-
-  def findMostCommonSleepMinute(minutes: Array[Int], carry: Map[Int, Int] = Map()): Int = {
-    if (minutes.isEmpty) return carry.maxBy(_._2)._1
-
-    val minute = minutes.head
-    val times = carry.getOrElse(minute, 0) + 1
-
-    findMostCommonSleepMinute(minutes.tail, carry + { minute -> times })
+    maxPeriod.guard.id * mostCommonSleepMinute
   }
 }
