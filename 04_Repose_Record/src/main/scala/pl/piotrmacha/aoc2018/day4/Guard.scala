@@ -9,17 +9,24 @@ case class Guard(id: Int, events: Array[Event]) {
   def sleepPeriods(state: GuardState, events: Array[Event], periods: Array[SleepPeriod]): Array[SleepPeriod] = {
     if (events.isEmpty) return periods
 
-    events.head match {
-      case e: GuardFadesAsleep => sleepPeriods(Sleeping(e.date), events.tail, periods)
-      case e: GuardWakesUp => state match {
-        case s: Sleeping => sleepPeriods(NotSleeping(), events.tail, periods :+ SleepPeriod(this, s.from, e.date))
-        case _ => sleepPeriods(NotSleeping(), events.tail, periods)
+    val (nextState, maybePeriod: Option[SleepPeriod]) = events.head match {
+      case event: GuardFadesAsleep => (Sleeping(event.date), None)
+      case event: GuardWakesUp => state match {
+        case state: Sleeping => (NotSleeping(), Some(SleepPeriod(this, state.from, event.date)))
+        case _ => (NotSleeping(), None)
       }
-      case _ => sleepPeriods(state, events.tail, periods)
+      case _ => (NotSleeping(), None)
     }
+
+    val nextPeriods = maybePeriod.map(p => periods :+ p).getOrElse(periods)
+
+    sleepPeriods(nextState, events.tail, nextPeriods)
   }
 
   abstract class GuardState()
+
   case class Sleeping(from: LocalDateTime) extends GuardState
+
   case class NotSleeping() extends GuardState
+
 }
